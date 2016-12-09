@@ -76,6 +76,9 @@ function getCurrentPosition(callback) {
     if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(function (position) {
             callback([position.coords.longitude, position.coords.latitude]);
+        }, function () {
+            document.body.setAttribute('class', 'nogeo');
+            callback(DEFAULT_LONLAT);
         });
     } else {
         document.body.setAttribute('class', 'nogeo');
@@ -91,7 +94,7 @@ function onIgniteClick() {
     ga('set', 'dimension1', binnedLonlat[0]);
     ga('set', 'dimension2', binnedLonlat[1]);
     ga('send', 'event', 'data', 'click', 'ignite');
-    new Image().src='ignited';
+    new Image().src = 'ignited';
 
     var expInSec = 60 * 60;
     var expDate = new Date(Date.now() + expInSec * 1000);
@@ -136,12 +139,12 @@ function update() {
     var minute = 60;
     var second = 0;
     var now = Date.now();
-    if(now > ignitedUntil) {
+    if (now > ignitedUntil) {
         document.querySelector('#ignite').setAttribute('class', '');
     } else {
-        var totalSec = ((ignitedUntil - now) / 1000)|0;
+        var totalSec = ((ignitedUntil - now) / 1000) | 0;
         second = totalSec % 60;
-        minute = (totalSec / 60)|0;
+        minute = (totalSec / 60) | 0;
     }
 
     var minuteStr = '0' + minute;
