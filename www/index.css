@@ -16,8 +16,8 @@ body {
 
 .links {
     position: absolute;
-    left: 0.5rem;
-    bottom: 1rem;
+    right: 0.5rem;
+    top: 1rem;
     margin: 0;
     padding: 0;
 }
