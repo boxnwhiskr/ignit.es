@@ -6,7 +6,7 @@ var ignitedUntil = 0;
 
 function main() {
     if(isFacebookApp()) {
-        document.body.setAttribute('fb');
+        document.body.setAttribute('class', 'fb');
         return;
     }
 
