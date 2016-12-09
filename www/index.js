@@ -5,11 +5,11 @@ var lonlat = DEFAULT_LONLAT;
 var ignitedUntil = 0;
 
 function main() {
-    if(isFacebookApp()) {
-        document.body.setAttribute('class', 'fb');
-        return;
-    }
-
+    // if(isFacebookApp()) {
+    //     document.body.setAttribute('class', 'fb');
+    //     return;
+    // }
+    //
     var heatmap = new ol.layer.Heatmap({
         source: new ol.source.Vector({
             url: 'today.kml',
