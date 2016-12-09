@@ -2,6 +2,7 @@ var DEFAULT_LONLAT = [126.9746921, 37.5728438];
 
 var map;
 var lonlat = DEFAULT_LONLAT;
+var ignitedUntil = 0;
 
 function main() {
     var heatmap = new ol.layer.Heatmap({
@@ -23,7 +24,6 @@ function main() {
         source: new ol.source.OSM({
             'url': '//cartodb-basemaps-{a-c}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
         })
-
     });
 
     map = new ol.Map({
@@ -46,13 +46,17 @@ function main() {
         var igniteEl = document.getElementById('ignite');
         igniteEl.addEventListener('click', function (e) {
             e.preventDefault();
-
-            var binnedLonlat = getBinnedLonlat(lonlat);
-            ga('set', 'dimension1', binnedLonlat[0]);
-            ga('set', 'dimension2', binnedLonlat[1]);
-            ga('send', 'event', 'data', 'click', 'ignite');
+            onIgniteClick();
         });
     });
+
+    var expInSec = getCookie('ignited');
+    if (expInSec !== null) {
+        document.getElementById('ignite').setAttribute('class', 'ignited');
+        ignitedUntil = +expInSec;
+    }
+
+    update();
 }
 
 
@@ -76,9 +80,77 @@ function getCurrentPosition(callback) {
     }
 }
 
+function onIgniteClick() {
+    var ignited = getCookie('ignited') !== null;
+    if (ignited) return;
 
-function onData(data) {
+    var binnedLonlat = getBinnedLonlat(lonlat);
+    ga('set', 'dimension1', binnedLonlat[0]);
+    ga('set', 'dimension2', binnedLonlat[1]);
+    ga('send', 'event', 'data', 'click', 'ignite');
 
+    var expInSec = 60 * 60;
+    var expDate = new Date(Date.now() + expInSec * 1000);
+
+    setCookie('ignited', expDate.getTime(), expInSec);
+    document.getElementById('ignite').setAttribute('class', 'ignited');
+    ignitedUntil = expDate.getTime();
 }
+
+
+function getCookie(name) {
+    var pairs = document.cookie.split('; ');
+    for (var i = 0; i < pairs.length; i++) {
+        var kv = pairs[i].split('=');
+        if (kv[0] === name) return decodeURIComponent(kv[1]);
+    }
+    return null;
+}
+
+
+function setCookie(name, value, expiresInSec, path, domain, secure) {
+    var cookieStr = name + "=" + encodeURIComponent(value) + "; ";
+
+    if (expiresInSec) {
+        var expDate = new Date(Date.now() + expiresInSec * 1000);
+        cookieStr += "expires=" + expDate.toUTCString() + "; ";
+    }
+    if (path) {
+        cookieStr += "path=" + path + "; ";
+    }
+    if (domain) {
+        cookieStr += "domain=" + domain + "; ";
+    }
+    if (secure) {
+        cookieStr += "secure; ";
+    }
+    document.cookie = cookieStr;
+}
+
+
+function update() {
+    var minute = 60;
+    var second = 0;
+    var now = Date.now();
+    if(now > ignitedUntil) {
+        document.querySelector('#ignite').setAttribute('class', '');
+    } else {
+        var totalSec = ((ignitedUntil - now) / 1000)|0;
+        second = totalSec % 60;
+        minute = (totalSec / 60)|0;
+    }
+
+    var minuteStr = '0' + minute;
+    var secondStr = '0' + second;
+
+    var untilEl = document.querySelector('#ignite .until');
+    untilEl.innerHTML = (
+        minuteStr.substr(minuteStr.length - 2) + ':' +
+        secondStr.substr(secondStr.length - 2)
+    );
+
+    window.setTimeout(update, 100);
+}
+
 
 main();
