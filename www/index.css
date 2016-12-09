@@ -16,7 +16,7 @@ body {
 body.fb * {
     display: none;
 }
-body.fb .fb-warning {
+body.fb div.fb-warning {
     display: block;
     margin-top: 3rem;
     text-align: center;
