@@ -17,7 +17,7 @@ function main() {
     heatmap.getSource().on('addfeature', function (event) {
         var name = event.feature.get('name');
         var magnitude = parseFloat(name);
-        event.feature.set('weight', magnitude - 5);
+        event.feature.set('weight', magnitude);
     });
     var tile = new ol.layer.Tile({
         source: new ol.source.OSM()
@@ -28,7 +28,7 @@ function main() {
         layers: [tile, heatmap],
         view: new ol.View({
             center: ol.proj.fromLonLat(DEFAULT_LONLAT),
-            zoom: 16
+            zoom: 12
         })
     });
 
