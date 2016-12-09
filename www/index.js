@@ -6,7 +6,7 @@ var lonlat = DEFAULT_LONLAT;
 function main() {
     var heatmap = new ol.layer.Heatmap({
         source: new ol.source.Vector({
-            url: 'sample.kml',
+            url: 'today.kml',
             format: new ol.format.KML({
                 extractStyles: false
             })
