@@ -11,19 +11,6 @@ body {
     overflow: hidden;
 }
 
-.fb-warning {
-    display: none;
-}
-body.fb * {
-    display: none;
-    visibility: hidden;
-}
-body.fb div.fb-warning {
-    display: block;
-    margin-top: 3rem;
-    text-align: center;
-}
-
 #map {
     height: 100%;
 }
@@ -75,4 +62,18 @@ body.fb div.fb-warning {
   100% {
     background-color: #FFFFFF;
   }
+}
+
+.fb-warning {
+    display: none;
+}
+body.fb #map,
+body.fb .links {
+    display: none;
+}
+body.fb .fb-warning {
+    display: block;
+    margin-top: 5rem;
+    text-align: center;
+    color: #F00;
 }
