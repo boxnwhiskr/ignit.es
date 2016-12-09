@@ -5,14 +5,10 @@ var lonlat = DEFAULT_LONLAT;
 var ignitedUntil = 0;
 
 function main() {
-    // Fix for FB
-    window.addEventListener("resize", function(){
-      onResize();
-    });
-    function onResize(){
-      document.querySelector("html").style.height = window.innerHeight + "px"
+    if(isFacebookApp()) {
+        alert('The site doesn\'t support Facebook browser yet.');
+        return;
     }
-    onResize();
 
     var heatmap = new ol.layer.Heatmap({
         source: new ol.source.Vector({
@@ -162,6 +158,12 @@ function update() {
     );
 
     window.setTimeout(update, 100);
+}
+
+
+function isFacebookApp() {
+    var ua = navigator.userAgent || navigator.vendor || window.opera;
+    return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1);
 }
 
 
