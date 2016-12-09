@@ -3,3 +3,19 @@ html {
     font-size: 14px;
     font-family: 'Apple SD Gothic Neo', 'Noto Sans CJK KR', '본고딕', 'KoPubDotum Medium', '나눔바른고딕', '나눔고딕', NanumGothic, '맑은고딕', 'Malgun Gothic', Arial, Dotum, sans-serif;
 }
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#map {
+    height: 100%;
+}
+
+#ignite {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
