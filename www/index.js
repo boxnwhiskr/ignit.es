@@ -6,7 +6,7 @@ var ignitedUntil = 0;
 
 function main() {
     if(isFacebookApp()) {
-        alert('The site doesn\'t support Facebook browser yet.');
+        document.body.setAttribute('fb');
         return;
     }
 
