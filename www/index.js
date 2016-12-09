@@ -29,6 +29,10 @@ function main() {
         view: new ol.View({
             center: ol.proj.fromLonLat(DEFAULT_LONLAT),
             zoom: 12
+        }),
+        interactions: ol.interaction.defaults({
+            altShiftDragRotate: false,
+            pinchRotate: false
         })
     });
 
