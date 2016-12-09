@@ -4,13 +4,28 @@ var map;
 var lonlat = DEFAULT_LONLAT;
 
 function main() {
+    var heatmap = new ol.layer.Heatmap({
+        source: new ol.source.Vector({
+            url: 'sample.kml',
+            format: new ol.format.KML({
+                extractStyles: false
+            })
+        }),
+        blur: 20,
+        radius: 10
+    });
+    heatmap.getSource().on('addfeature', function (event) {
+        var name = event.feature.get('name');
+        var magnitude = parseFloat(name);
+        event.feature.set('weight', magnitude - 5);
+    });
+    var tile = new ol.layer.Tile({
+        source: new ol.source.OSM()
+    });
+
     map = new ol.Map({
         target: 'map',
-        layers: [
-            new ol.layer.Tile({
-                source: new ol.source.OSM()
-            })
-        ],
+        layers: [tile, heatmap],
         view: new ol.View({
             center: ol.proj.fromLonLat(DEFAULT_LONLAT),
             zoom: 16
@@ -36,7 +51,11 @@ function main() {
 
 function getBinnedLonlat(lonlat) {
     var bin = 50;
-    return [((lonlat[0] * bin)|0) / bin, ((lonlat[1] * bin)|0) / bin]
+    var center = (1 / bin / 2);
+    return [
+        ((lonlat[0] * bin) | 0) / bin + center,
+        ((lonlat[1] * bin) | 0) / bin + center
+    ];
 }
 
 
@@ -50,5 +69,9 @@ function getCurrentPosition(callback) {
     }
 }
 
+
+function onData(data) {
+
+}
 
 main();
