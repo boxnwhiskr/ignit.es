@@ -70,18 +70,18 @@ html, body {
     }
 }
 
-.fb-warning {
+.nogeo-warning {
     display: none;
 }
-
-body.fb #map,
-body.fb .links {
-    display: none;
-}
-
-body.fb .fb-warning {
+body.nogeo .nogeo-warning {
     display: block;
-    margin-top: 10rem;
+    position: absolute;
+    width: 100%;
     text-align: center;
+    top: 5rem;
     color: #F00;
+    font-weight: bold;
+}
+body.nogeo #ignite {
+    display: none;
 }

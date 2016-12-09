@@ -5,11 +5,6 @@ var lonlat = DEFAULT_LONLAT;
 var ignitedUntil = 0;
 
 function main() {
-    if(isFacebookApp()) {
-        document.body.setAttribute('class', 'fb');
-        return;
-    }
-
     var heatmap = new ol.layer.Heatmap({
         source: new ol.source.Vector({
             url: 'today.kml',
@@ -83,6 +78,7 @@ function getCurrentPosition(callback) {
             callback([position.coords.longitude, position.coords.latitude]);
         });
     } else {
+        document.body.setAttribute('class', 'nogeo');
         callback(DEFAULT_LONLAT);
     }
 }
@@ -158,12 +154,6 @@ function update() {
     );
 
     window.setTimeout(update, 100);
-}
-
-
-function isFacebookApp() {
-    var ua = navigator.userAgent || navigator.vendor || window.opera;
-    return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1);
 }
 
 
