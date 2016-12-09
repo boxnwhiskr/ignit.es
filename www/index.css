@@ -14,11 +14,26 @@ body {
     height: 100%;
 }
 
-#ignite {
+.links {
     position: absolute;
-    left: 1rem;
+    left: 0.5rem;
     bottom: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+.links li {
+    list-style-type: none;
+    display: block;
+    float: left;
+}
+
+.links li a {
     padding: 0.5rem 1rem;
+    color: #FFF;
+}
+
+#ignite {
     background-color: #FFF;
     color: #000;
     border: 2px solid #000;
