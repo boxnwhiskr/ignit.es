@@ -1,14 +1,14 @@
 html {
     font-size: 14px;
     font-family: 'Apple SD Gothic Neo', 'Noto Sans CJK KR', '본고딕', 'KoPubDotum Medium', '나눔바른고딕', '나눔고딕', NanumGothic, '맑은고딕', 'Malgun Gothic', Arial, Dotum, sans-serif;
-    height: 100%;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
+html, body {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 #map {
@@ -49,28 +49,30 @@ body {
 }
 
 #ignite.ignited {
-  animation: pulse 5s infinite;
+    animation: pulse 5s infinite;
 }
 
 @keyframes pulse {
-  0% {
-    background-color: #FFFFFF;
-  }
-  50% {
-    background-color: #FF4136;
-  }
-  100% {
-    background-color: #FFFFFF;
-  }
+    0% {
+        background-color: #FFFFFF;
+    }
+    50% {
+        background-color: #FF4136;
+    }
+    100% {
+        background-color: #FFFFFF;
+    }
 }
 
 .fb-warning {
     display: none;
 }
+
 body.fb #map,
 body.fb .links {
     display: none;
 }
+
 body.fb .fb-warning {
     display: block;
     margin-top: 10rem;
