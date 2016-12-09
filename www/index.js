@@ -1,14 +1,9 @@
 var DEFAULT_LONLAT = [126.9746921, 37.5728438];
 
 var map;
+var lonlat = DEFAULT_LONLAT;
 
 function main() {
-    var igniteEl = document.getElementById('ignite');
-    igniteEl.addEventListener('click', function (e) {
-        e.preventDefault();
-        ga('send', 'event', 'data', 'click', 'ignite');
-    });
-
     map = new ol.Map({
         target: 'map',
         layers: [
@@ -22,9 +17,26 @@ function main() {
         })
     });
 
-    getCurrentPosition(function (lonlat) {
-        map.getView().setCenter(ol.proj.fromLonLat(lonlat));
+    getCurrentPosition(function (newLonlat) {
+        map.getView().setCenter(ol.proj.fromLonLat(newLonlat));
+        lonlat = newLonlat;
+
+        var igniteEl = document.getElementById('ignite');
+        igniteEl.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            var binnedLonlat = getBinnedLonlat(lonlat);
+            ga('set', 'dimension1', binnedLonlat[0]);
+            ga('set', 'dimension2', binnedLonlat[1]);
+            ga('send', 'event', 'data', 'click', 'ignite');
+        });
     });
+}
+
+
+function getBinnedLonlat(lonlat) {
+    var bin = 50;
+    return [((lonlat[0] * bin)|0) / bin, ((lonlat[1] * bin)|0) / bin]
 }
 
 
@@ -34,7 +46,7 @@ function getCurrentPosition(callback) {
             callback([position.coords.longitude, position.coords.latitude]);
         });
     } else {
-        callback([126.9746921, 37.5728438]);
+        callback(DEFAULT_LONLAT);
     }
 }
 
