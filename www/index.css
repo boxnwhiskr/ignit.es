@@ -73,7 +73,7 @@ body.fb .links {
 }
 body.fb .fb-warning {
     display: block;
-    margin-top: 5rem;
+    margin-top: 10rem;
     text-align: center;
     color: #F00;
 }
