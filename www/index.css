@@ -16,6 +16,11 @@ body {
 
 #ignite {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    left: 1rem;
+    bottom: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #FFF;
+    color: #000;
+    border: 2px solid #000;
+    text-decoration: none;
 }
