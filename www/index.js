@@ -20,7 +20,10 @@ function main() {
         event.feature.set('weight', magnitude);
     });
     var tile = new ol.layer.Tile({
-        source: new ol.source.OSM({'url': 'https://{a-c}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'})
+        source: new ol.source.OSM({
+            'url': '//cartodb-basemaps-{a-c}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
+        })
+
     });
 
     map = new ol.Map({
