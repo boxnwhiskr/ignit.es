@@ -31,7 +31,9 @@ function main() {
         layers: [tile, heatmap],
         view: new ol.View({
             center: ol.proj.fromLonLat(DEFAULT_LONLAT),
-            zoom: 12
+            zoom: 12,
+            minZoom: 3,
+            maxZoom: 12
         }),
         interactions: ol.interaction.defaults({
             altShiftDragRotate: false,
