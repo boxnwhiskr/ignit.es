@@ -13,8 +13,13 @@ body {
 .fb-warning {
     display: none;
 }
+body.fb * {
+    display: none;
+}
 body.fb .fb-warning {
     display: block;
+    margin-top: 3rem;
+    text-align: center;
 }
 
 #map {
