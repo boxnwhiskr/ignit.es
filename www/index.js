@@ -17,9 +17,16 @@ function main() {
     radius: 10
   });
   heatmap.getSource().on('addfeature', function (event) {
+    // Assign magnitude
     var name = event.feature.get('name');
     var magnitude = parseFloat(name);
     event.feature.set('weight', magnitude);
+
+    // Jitter
+    var geometry = event.feature.get('geometry');
+    var coordinate = geometry.getCoordinates();
+    geometry.setCoordinates(jitter(coordinate, 1000.0));
+    event.feature.set('geometry', geometry);
   });
   var tile = new ol.layer.Tile({
     source: new ol.source.OSM({
@@ -175,5 +182,15 @@ function update() {
   window.setTimeout(update, 100);
 }
 
+
+/**
+ * Add small and deterministic noise to given coordinate
+ */
+function jitter(coordinate, scale) {
+  var seed = coordinate[0] ^ coordinate[1];
+  var noisex = ((seed + coordinate[0]) % 29) / 29 - 0.5;
+  var noisey = ((seed + coordinate[1]) % 31) / 31 - 0.5;
+  return [coordinate[0] + noisex * scale, coordinate[1] + noisey * scale];
+}
 
 main();
