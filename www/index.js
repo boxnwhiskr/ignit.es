@@ -14,7 +14,8 @@ function main() {
       })
     }),
     blur: 20,
-    radius: 10
+    radius: 10,
+    gradient: ['#000088', '#FF0000', '#FFFF00', '#FFFFFF']
   });
   heatmap.getSource().on('addfeature', function (event) {
     // Assign magnitude
