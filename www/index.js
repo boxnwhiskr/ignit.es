@@ -5,8 +5,8 @@ var heatmap;
 var lonlat = DEFAULT_LONLAT;
 
 var ignitedUntil = 0;
-var oldCount = {hour: 0, min: 0};
-var curCount = {hour: 0, min: 0};
+var oldCount;
+var curCount;
 
 
 function main() {
@@ -202,15 +202,17 @@ function fetchCounter() {
 }
 
 function updateCounter() {
-  var percent = new Date().getSeconds() / 60;
-  var noise = Math.random() * 0.2 - 0.1;
-  var estimate = oldCount.hour + (curCount.hour - oldCount.hour) * (percent + noise);
-  if(ignitedUntil) {
-    estimate += 1;
+  if (curCount) {
+    var percent = new Date().getSeconds() / 60;
+    var noise = Math.random() * 0.2 - 0.1;
+    var estimate = oldCount.hour + (curCount.hour - oldCount.hour) * (percent + noise);
+    if (ignitedUntil) {
+      estimate += 1;
+    }
+    document.querySelector('.counter .current').innerHTML = Math.round(estimate);
   }
-  document.querySelector('.counter .current').innerHTML = Math.round(estimate);
 
-  var nextUpdate = estimate === 0 ? 1000 : 1000 + (1 - Math.min(10000, estimate) / 10000) * 30000;
+  var nextUpdate = estimate ? 1000 + (1 - Math.min(10000, estimate) / 10000) * 30000 : 1000;
   window.setTimeout(updateCounter, nextUpdate);
 }
 
