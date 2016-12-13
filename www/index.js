@@ -112,7 +112,7 @@ function onIgniteClick() {
   ga('set', 'dimension1', binnedLonlat[0]);
   ga('set', 'dimension2', binnedLonlat[1]);
   ga('send', 'event', 'data', 'click', 'ignite');
-  new Image().src = 'ignited';
+  new Image().src = 'ignited?z=' + ((Math.random() * 1000000)|0);
 
   var expInSec = 60 * 60;
   var expDate = new Date(Date.now() + expInSec * 1000);
