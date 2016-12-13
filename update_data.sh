@@ -8,5 +8,5 @@ wget "${TODAY}" -q -O- | ${SCRIPTDIR}/csv2kml.py > ${SCRIPTDIR}/www/data/today.k
 wget "${SEVENDAYS}" -q -O- | ${SCRIPTDIR}/csv2kml.py > ${SCRIPTDIR}/www/data/sevendays.kml
 
 # Estimate recent candle count
-cp ${SCRIPTDIR}/www/data/cur_count.txt ${SCRIPTDIR}/www/data/old_count.txt
-tail -n 10000 /var/log/nginx/access.log | grep "GET /ignited" | ${SCRIPTDIR}/estimate.py > ${SCRIPTDIR}/www/data/cur_count.txt
+cp ${SCRIPTDIR}/www/data/cur_count.json ${SCRIPTDIR}/www/data/old_count.json
+tail -n 10000 /var/log/nginx/access.log | grep "GET /ignited" | ${SCRIPTDIR}/estimate.py > ${SCRIPTDIR}/www/data/cur_count.json
