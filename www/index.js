@@ -210,7 +210,8 @@ function updateCounter() {
   }
   document.querySelector('.counter .current').innerHTML = Math.round(estimate);
 
-  window.setTimeout(updateCounter, 1000);
+  var nextUpdate = estimate === 0 ? 1000 : 1000 + (1 - Math.min(10000, estimate) / 10000) * 30000;
+  window.setTimeout(updateCounter, nextUpdate);
 }
 
 /**
