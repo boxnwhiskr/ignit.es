@@ -8,7 +8,7 @@ var ignitedUntil = 0;
 function main() {
   heatmap = new ol.layer.Heatmap({
     source: new ol.source.Vector({
-      url: 'today.kml',
+      url: 'data/today.kml',
       format: new ol.format.KML({
         extractStyles: false
       })
