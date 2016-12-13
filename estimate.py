@@ -23,13 +23,12 @@ def main():
     if len(hour_ts) == 0:
         count_for_hour = 0
     else:
-        count_for_hour = float(len(hour_ts)) / (
-            hour_ts[0] - now).seconds * 60 * 60
+        count_for_hour = float(len(hour_ts)) / (now - hour_ts[0]).seconds * 60 * 60
 
     if len(min_ts) == 0:
         count_for_min = 0
     else:
-        count_for_min = float(len(min_ts)) / (min_ts[0] - now).seconds * 60
+        count_for_min = float(len(min_ts)) / (now - min_ts[0]).seconds * 60
 
     print(json.dumps({
         'hour': count_for_hour,
