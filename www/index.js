@@ -3,9 +3,18 @@ var DEFAULT_LONLAT = [126.9746921, 37.5728438];
 var map;
 var heatmap;
 var lonlat = DEFAULT_LONLAT;
+
 var ignitedUntil = 0;
+var oldCount = {hour: 0, min: 0};
+var curCount = {hour: 0, min: 0};
+
 
 function main() {
+  // Initialize candle counter
+  fetchCounter();
+  updateCounter();
+
+  // Initialize map
   heatmap = new ol.layer.Heatmap({
     source: new ol.source.Vector({
       url: 'data/today.kml',
@@ -68,7 +77,7 @@ function main() {
     ignite(data.lonlat, 1);
   }
 
-  update();
+  updateTimer();
 }
 
 function ignite(lonlat, count) {
@@ -88,7 +97,6 @@ function getBinnedLonlat(lonlat) {
     ((lonlat[1] * bin) | 0) / bin + center
   ];
 }
-
 
 function getCurrentPosition(callback) {
   if ('geolocation' in navigator) {
@@ -112,7 +120,7 @@ function onIgniteClick() {
   ga('set', 'dimension1', binnedLonlat[0]);
   ga('set', 'dimension2', binnedLonlat[1]);
   ga('send', 'event', 'data', 'click', 'ignite');
-  new Image().src = 'ignited?z=' + ((Math.random() * 1000000)|0);
+  new Image().src = 'ignited?z=' + ((Math.random() * 1000000) | 0);
 
   var expInSec = 60 * 60;
   var expDate = new Date(Date.now() + expInSec * 1000);
@@ -128,7 +136,6 @@ function onIgniteClick() {
   ignite(binnedLonlat, 1);
 }
 
-
 function getCookie(name) {
   var pairs = document.cookie.split('; ');
   for (var i = 0; i < pairs.length; i++) {
@@ -137,7 +144,6 @@ function getCookie(name) {
   }
   return null;
 }
-
 
 function setCookie(name, value, expiresInSec, path, domain, secure) {
   var cookieStr = name + "=" + encodeURIComponent(value) + "; ";
@@ -158,8 +164,7 @@ function setCookie(name, value, expiresInSec, path, domain, secure) {
   document.cookie = cookieStr;
 }
 
-
-function update() {
+function updateTimer() {
   var minute = 60;
   var second = 0;
   var now = Date.now();
@@ -180,9 +185,33 @@ function update() {
     secondStr.substr(secondStr.length - 2)
   );
 
-  window.setTimeout(update, 100);
+  window.setTimeout(updateTimer, 100);
 }
 
+function fetchCounter() {
+  var queue = d3.queue();
+  queue
+    .defer(d3.json, 'data/old_count.json')
+    .defer(d3.json, 'data/cur_count.json')
+    .awaitAll(function (err, data) {
+      oldCount = data[0];
+      curCount = data[1];
+    });
+
+  window.setTimeout(fetchCounter, 1000 * 29);
+}
+
+function updateCounter() {
+  var percent = new Date().getSeconds() / 60;
+  var noise = Math.random() * 0.2 - 0.1;
+  var estimate = oldCount.hour + (curCount.hour - oldCount.hour) * (percent + noise);
+  if(ignitedUntil) {
+    estimate += 1;
+  }
+  document.querySelector('.counter .current').innerHTML = Math.round(estimate);
+
+  window.setTimeout(updateCounter, 1000);
+}
 
 /**
  * Add small and deterministic noise to given coordinate

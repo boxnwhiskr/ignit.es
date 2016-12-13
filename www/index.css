@@ -21,6 +21,16 @@ html, body {
     height: 100%;
 }
 
+.counter {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    text-align: right;
+    color: #FFF;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem;
+}
+
 .links {
     position: absolute;
     left: 0.5rem;
