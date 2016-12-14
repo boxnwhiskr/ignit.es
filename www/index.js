@@ -87,6 +87,7 @@ function ignite(lonlat, count) {
     'geometry': point
   });
   heatmap.getSource().addFeature(feature);
+  updateCounter(true);
 }
 
 function getBinnedLonlat(lonlat) {
@@ -201,7 +202,7 @@ function fetchCounter() {
   window.setTimeout(fetchCounter, 1000 * 29);
 }
 
-function updateCounter() {
+function updateCounter(onetime) {
   if (curCount) {
     var percent = new Date().getSeconds() / 60;
     var noise = Math.random() * 0.2 - 0.1;
@@ -212,8 +213,10 @@ function updateCounter() {
     document.querySelector('.counter .current').innerHTML = Math.round(estimate);
   }
 
-  var nextUpdate = estimate ? 1000 + (1 - Math.min(10000, estimate) / 10000) * 30000 : 1000;
-  window.setTimeout(updateCounter, nextUpdate);
+  if (!onetime) {
+    var nextUpdate = estimate ? 1000 + (1 - Math.min(10000, estimate) / 10000) * 30000 : 1000;
+    window.setTimeout(updateCounter, nextUpdate);
+  }
 }
 
 /**
