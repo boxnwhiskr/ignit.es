@@ -103,11 +103,13 @@ function getCurrentPosition(callback) {
   if ('geolocation' in navigator) {
     navigator.geolocation.getCurrentPosition(function (position) {
       callback([position.coords.longitude, position.coords.latitude]);
-    }, function () {
+    }, function (e) {
+      console.log(e);
       document.body.setAttribute('class', 'nogeo');
       callback(DEFAULT_LONLAT);
-    });
+    }, {timeout: 10000, enableHighAccuracy: true});
   } else {
+    console.log('navigator.geolocation not found');
     document.body.setAttribute('class', 'nogeo');
     callback(DEFAULT_LONLAT);
   }
